@@ -1,0 +1,25 @@
+{
+  "name": "example-store",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "browser":{
+    "child_process": false
+    },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.17.3",
+    "child_process": "^1.0.2",
+    "core-js": "^3.6.5",
+    "fs": "0.0.1-security",
+    "johnny-five": "^2.0.0",
+    "nuxt": "^2.14.6",
+    "serialport": "^9.0.2"
+  },
+  "devDependencies": {}
+}
