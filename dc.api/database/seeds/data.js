@@ -4,6 +4,7 @@ module.exports = [
         'documents': [
             {
                 '_id': 'user_jh23i4uhi141hiu12h',
+                'chip_id': '47:4B:7C:4B',
                 'socialName': 'Arthur Alves',
                 'civilName': 'Arthur Marcelo Santana Alves',
                 'career': 'Developer',

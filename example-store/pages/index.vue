@@ -1,37 +1,97 @@
 <template>
-  <div class="container">
+  <div>
+    <div
+      v-if="state == 'initial'"
+      class="container"
+    >
+      <div>
+        <h1 class="title">
+          {{ establishmentName.toUpperCase() }}
+        </h1>
+        <b-input-group size="lg" prepend="$" >
+          <b-form-input
+            v-model="price"
+            type="number"
+            placeholder="Total da compra"
+          />
+        </b-input-group>
+        <div class="links">
+          <a
+            target="_blank"
+            class="button--green btn"
+            @click="sendMessage()"
+          >
+            PRONTO
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      v-else-if="state === 'read_chip'"
+      class="container"
+    >
+      <h3 class="title">
+        Aproxime o D.C do leitor
+      </h3>
+  </div>
+  <div
+    v-else-if="state === 'success_debit'"
+    class="container"
+  >
     <div>
-      <h1 class="title">
-        FIDEO ROUPAS
-      </h1>
-      <b-input-group size="lg" prepend="$" >
-        <b-form-input
-          type="number"
-          placeholder="Total da compra"
-        />
-      </b-input-group>
+      <h5 class="title">
+        {{ resultDebit }}
+      </h5>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
           target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
+          class="button--green btn"
+          @click="finishDebit()"
         >
-          FINALIZAR
-        </a>
+          NOVA VENDA
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import  * as SerialPort from 'serialport'
-
 export default {
-  created() {
-    // var SerialPort = require("serialport").serialport
-    // console.log(SerialPort)
-  }
+  data: function() {
+    return {
+      price: null,
+      state: 'initial',
+      establishmentName: 'Faguinho Boutique',
+      resultDebit: ''
+    }
+  },
+  methods: {
+    finishDebit() {
+      this.state = 'initial'
+      this.price = null
+    },
+    sendMessage: function() {
+      this.$socket.sendObj({
+        type: 'debit',
+        value: this.price,
+        establishmentName: this.establishmentName
+      })
+      this.state = 'read_chip'
+    }
+  },
+  beforeMount() {
+    this.$options.sockets.onmessage = (msg) => {
+      const response = JSON.parse(event.data)
+      if(response.type === 'debit') {
+        console.log('ue')
+        if(response.code === 200) {
+          this.state = 'success_debit'
+          this.resultDebit = response.message
+        }
+      }
+    }
+  },
 }
 </script>
 
@@ -62,16 +122,10 @@ export default {
   color: #35495e;
   letter-spacing: 1px;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.btn {
+  margin-top: 10px;
+},
+.btn:hover {
+  cursor: pointer;
 }
 </style>

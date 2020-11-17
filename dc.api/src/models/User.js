@@ -2,6 +2,11 @@ const { model, Schema } = require('mongoose')
 const UserSchema = Schema({
     _id: {
         type: String,
+        unique: true,
+    },
+    chip_id: {
+        type: String,
+        unique: true,
     },
     socialName: {
         type: String,

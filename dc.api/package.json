@@ -9,6 +9,7 @@
   "author": "Arthur Alves",
   "license": "ISC",
   "dependencies": {
+    "@serialport/parser-readline": "^9.0.1",
     "body-parser": "^1.19.0",
     "consign": "^0.1.6",
     "cors": "^2.8.5",

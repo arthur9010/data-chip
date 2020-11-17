@@ -8,8 +8,8 @@ module.exports = app => {
         const Bank = app.controllers.BankController
         res.send(await Bank.find({user_id: req.params.id}))
     })
-    app.put(`${baseUrl}/draft/`, async (req, res) => {
+    app.put(`${baseUrl}/debit/`, async (req, res) => {
         const Bank = app.controllers.BankController
-        res.send(await Bank.draft({ ...req.body }))
+        res.send(await Bank.debit({ ...req.body }))
     })
 }

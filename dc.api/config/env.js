@@ -7,5 +7,5 @@ module.exports = {
     MONGODB_PORT:process.env.MONGODB_PORT,
     MONGODB_DATABASE:process.env.MONGODB_DATABASE,
     MONGODB_USER:process.env.MONGODB_USER,
-    MONGODB_PASS:process.env.MONGODB_PASS
+    MONGODB_PASS:process.env.MONGODB_PASS,
 }

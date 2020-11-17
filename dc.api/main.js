@@ -4,7 +4,7 @@ const cors = require('cors')
 const bodyParse = require('body-parser')
 const load = require('consign')
 const router = express.Router()
-const port = 3000
+const port = 3232
 
 const mongoSeed = require('./database/seeds/')()
 const mongo = require('./database/connection')

@@ -1,4 +1,5 @@
-const CRUD = require('../interfaces/crud')('Bank')
+const BANK = require('../interfaces/crud')('Bank')
+const USER = require('../interfaces/crud')('User')
 
 module.exports = {
     create: async (user) => {
@@ -10,8 +11,9 @@ module.exports = {
     find: async(obj) => {
         return await CRUD.find(obj)
     },
-    draft: async({ userId, value, establishmentName, }) => {
-        const bank = await CRUD.findOne({ user_id: userId })
+    debit: async({ chipId, value, establishmentName, }) => {
+        const user = await USER.findOne({ chip_id: chipId.trim() })
+        const bank = await BANK.findOne({ user_id: user._id })
         bank.balance -= value
         bank.extract.push({
             value,
