@@ -32,6 +32,7 @@
     >
       <h3 class="title">
         Aproxime o D.C do leitor
+        R$ {{ price }}
       </h3>
   </div>
   <div
