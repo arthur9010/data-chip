@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 var axiosInstance = axios.create({
-    baseURL:'https://donate-api.azurewebsites.net',
+    baseURL:'http://192.168.15.140:3232/api/',
 });
 
 export default axiosInstance

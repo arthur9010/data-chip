@@ -3,13 +3,13 @@ const USER = require('../interfaces/crud')('User')
 
 module.exports = {
     create: async (user) => {
-        return await CRUD.create(user)
+        return await BANK.create(user)
     },
     findAll: async () => {
-        return await CRUD.findAll('name')
+        return await BANK.findAll('name')
     },
     find: async(obj) => {
-        return await CRUD.find(obj)
+        return await BANK.findOne(obj)
     },
     debit: async({ chipId, value, establishmentName, }) => {
         const user = await USER.findOne({ chip_id: chipId.trim() })

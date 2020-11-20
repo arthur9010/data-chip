@@ -1,13 +1,13 @@
-var WebSocketServer = require('websocket').server;
-var http = require('http');
-const SerialPort = require('serialport');
-const Readline = require('@serialport/parser-readline');
-const port = new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
-const parser = port.pipe(new Readline({ delimiter: '\n' }));
+var WebSocketServer = require('websocket').server
+var http = require('http')
+const SerialPort = require('serialport')
+const Readline = require('@serialport/parser-readline')
+const port = new SerialPort('COM5', { baudRate: 9600 })
+const parser = port.pipe(new Readline({ delimiter: '\n' }))
 const axios = require('axios')
 // Read the port data
 port.on("open", () => {
-    console.log('serial port open');
+    console.log('serial port open')
 });
 function readArduino() {
     return new Promise((resolve, reject) => {
@@ -30,13 +30,11 @@ wsServer = new WebSocketServer({
 });
  
 function originIsAllowed(origin) {
-  // put logic here to detect whether the specified origin is allowed.
   return true;
 }
  
 wsServer.on('request', function(request) {
     if (!originIsAllowed(request.origin)) {
-      // Make sure we only accept requests from an allowed origin
       request.reject();
       console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
       return;
@@ -59,12 +57,26 @@ wsServer.on('request', function(request) {
                         chipId,
                     })
                 )
-                .then(() => connection.send(JSON.stringify({
-                        type: 'debit',
-                        code: 200,
-                        message: 'Pagamento efetuado com sucesso!'
-                    }))
+                .then(() => {
+                        connection.send(JSON.stringify({
+                            type: 'debit',
+                            code: 200,
+                            message: 'Pagamento efetuado com sucesso!'
+                        }))
+
+                    }
                 )
+        }
+        if (type === 'identification') {
+            readArduino()
+                .then((chipId) => axios.get(`http://localhost:3232/api/user/document/${chipId}`))
+                .then((res) => {
+                    connection.send(JSON.stringify({
+                        type: 'identification',
+                        code: 200,
+                        user: res.data,
+                    }))
+                })
         }
     });
     connection.on('close', function(reasonCode, description) {

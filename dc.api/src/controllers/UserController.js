@@ -7,6 +7,6 @@ module.exports = {
         return await CRUD.findAll('name')
     },
     find: async(obj) => {
-        return await CRUD.find(obj)
+        return await CRUD.findOne(obj)
     }
 }
